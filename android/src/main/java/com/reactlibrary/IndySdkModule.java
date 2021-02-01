@@ -576,6 +576,16 @@ public class IndySdkModule extends ReactContextBaseJavaModule {
     }
     
     // anoncreds
+    @ReactMethod
+    public void verifierVerifyProof(String verifierProofRequest, String proofJson, String schemasJson, String credentialDefsJson, String revocRegDefsJson, String revocRegsJson, Promise promise) {
+        try {
+            Boolean valid = Anoncreds.verifierVerifyProof(verifierProofRequest, proofJson, schemasJson, credentialDefsJson, revocRegDefsJson, revocRegsJson).get();
+            promise.resolve(valid);
+        } catch(Exception e) {
+            IndySdkRejectResponse rejectResponse = new IndySdkRejectResponse(e);
+            promise.reject(rejectResponse.getCode(), rejectResponse.toJson(), e);
+        }
+    }
 
     @ReactMethod
     public void issuerCreateSchema(String issuerDid, String name, String version, String attrs, Promise promise) {

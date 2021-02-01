@@ -706,6 +706,29 @@ const indy = {
     return [schemaId, JSON.parse(schema)]
   },
 
+  async verifierVerifyProof(
+    verifierProofRequest: string,
+    proofJson: string,
+    schemasJson: string,
+    credentialDefsJson: string,
+    revocRegDefsJson: string,
+    revocRegsJson: string
+  ): Promise<Boolean> {
+    if (Platform.OS === 'ios') {
+      throw new Error(`Unsupported operation! Platform: ${Platform.OS}`)
+    }
+
+    const valid = await IndySdk.verifierVerifyProof(
+      verifierProofRequest,
+      proofJson,
+      schemasJson,
+      credentialDefsJson,
+      revocRegDefsJson,
+      revocRegsJson
+    )
+    return valid
+  },
+
   async issuerCreateAndStoreCredentialDef(
     wh: WalletHandle,
     issuerDid: Did,
